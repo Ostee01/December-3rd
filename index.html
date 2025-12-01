@@ -129,7 +129,6 @@
     /* pointer-events:none;  REMOVE THIS */
 }
 
-
   .parcel{
     width:42%;
     max-width:180px;
@@ -206,7 +205,7 @@
       <!-- Stage A: Intro question -->
       <div id="intro" class="scene">
         <h1>do you know what day it is?</h1>
-        <p class="muted">()</p>
+        <p class="muted">(tbf you mightve already seen...)</p>
         <div style="height:10px"></div>
         <button id="revealBtn" class="btn" aria-label="What day is it?">what day is it?</button>
       </div>
@@ -244,7 +243,8 @@
           </div>
 
           <!-- crumpled/unwrap overlay (open parcel image) - initially hidden -->
-          <img id="openWrap" src="parcel_open.png" alt="" style="position:absolute; width:50%; max-width:220px; bottom:6%; left:50%; transform:translateX(-50%); opacity:0; transition:all 420ms;" />
+          <img id="openWrap" src="parcel_open.png" alt="" style="position:absolute; width:50%; max-width:220px; bottom:6%; left:50%; transform:translateX(-50%); opacity:0; transition:all 420ms;pointer-events:none;
+" />
         </div>
 
         <div style="height:6px"></div>

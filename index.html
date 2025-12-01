@@ -1,254 +1,221 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>December 3rd Sweater</title>
 <style>
-:root{
-  --bg:#F7F7F9;
-  --muted-berry:#7A1020;
-  --card:#fff;
+:root {
+  --bg: #F7F7F9;
+  --muted-berry: #7A1020;
+  --card: #fff;
   --shadow: 0 8px 30px rgba(19,19,25,0.08);
-  --soft-text:#3a3a3a;
-  --tap-size:56px;
+  --soft-text: #3a3a3a;
+  --tap-size: 56px;
 }
 
-html,body{
-  height:100%;
-  margin:0;
-  font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background: linear-gradient(180deg, var(--bg) 0%, #f1eef0 100%);
-  color:var(--soft-text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  color: var(--soft-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.wrap{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:28px;
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
 }
 
-.card{
-  width:100%;
-  max-width:420px;
-  background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.98));
-  border-radius:18px;
-  box-shadow:var(--shadow);
-  padding:22px;
-  box-sizing:border-box;
-  position:relative;
-  overflow:hidden;
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.98));
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 }
 
-.stage{
-  min-height:60vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  gap:18px;
-  padding:8px 12px;
+.stage {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 18px;
+  padding: 8px 12px;
 }
 
-h1{font-size:20px;margin:0;color:var(--muted-berry);font-weight:700}
-p{margin:0;color:#6b6b6b}
+h1 { font-size: 20px; margin: 0; color: var(--muted-berry); font-weight: 700; }
+p { margin: 0; color: #6b6b6b; }
 
-.btn{
-  background:var(--muted-berry);
-  color:white;
-  border:none;
-  padding:12px 18px;
-  border-radius:12px;
-  font-weight:600;
-  font-size:16px;
-  box-shadow:0 6px 18px rgba(122,16,32,0.12);
-  min-height:var(--tap-size);
-  min-width:160px;
+.btn {
+  background: var(--muted-berry);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 6px 18px rgba(122,16,32,0.12);
+  min-height: var(--tap-size);
+  min-width: 160px;
 }
 
-.ghost-btn{
-  background:transparent;
-  border:2px solid rgba(122,16,32,0.12);
-  color:var(--muted-berry);
-  padding:10px 14px;
-  border-radius:12px;
-  font-weight:600;
-  min-height:var(--tap-size);
+.ghost-btn {
+  background: transparent;
+  border: 2px solid rgba(122,16,32,0.12);
+  color: var(--muted-berry);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  min-height: var(--tap-size);
 }
 
-.revealText{
-  font-size:20px;
-  color:var(--muted-berry);
-  font-weight:800;
-  opacity:0;
-  transform: translateY(8px) scale(.98);
-  transition: all 420ms cubic-bezier(.2,.9,.25,1);
-  letter-spacing:0.6px;
-}
-.revealText.show{ opacity:1; transform: translateY(0) scale(1); }
+.letter-scene { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; width: 100%; height: 100%; }
+.letter-scene.show { display: flex; }
 
-.hearts{
-  pointer-events:none;
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  z-index:50;
-}
-.heart{
-  position:absolute;
-  width:18px;
-  height:18px;
-  transform-origin:center;
-  opacity:0;
-  will-change:transform,opacity;
-  background:transparent;
-}
-
-.letter-scene{ display:none; width:100%; height:100%; align-items:center; justify-content:center; flex-direction:column; gap:14px; }
-.letter-scene.show{ display:flex; }
-
-.mailbox{
-  width:60%;
-  max-width:180px;
-  height:auto;
+.mailbox {
+  width: 60%;
+  max-width: 180px;
+  height: auto;
   margin: 0 auto;
-  filter:drop-shadow(0 6px 18px rgba(30,30,30,0.08));
+  filter: drop-shadow(0 6px 18px rgba(30,30,30,0.08));
 }
 
-.parcel-area{
-  position:relative;
-  width:100%;
-  height:220px;
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-  gap:12px;
-  overflow:visible;
+.parcel-area {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 12px;
+  overflow: visible;
 }
 
-.parcel{
-  width:40%;
-  max-width:180px;
-  position:absolute;
-  bottom:-20%;
-  left:50%;
-  transform:translateX(-50%) translateY(30%);
+.parcel {
+  width: 40%;
+  max-width: 180px;
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translateX(-50%) translateY(30%);
   transition: transform 600ms cubic-bezier(.2,.9,.25,1), opacity 300ms;
-  transform-origin:center;
-  pointer-events:none;
-  touch-action:manipulation;
+  pointer-events: none;
+  cursor: pointer;
 }
 
-.parcel.slide-in{
+.parcel.slide-in {
   transform: translateX(-50%) translateY(0%);
-  bottom:12px;
+  bottom: 12px;
+  pointer-events: auto;
 }
 
-.parcel img{ width:100%; display:block; border-radius:10px; }
+.parcel img { width: 100%; display: block; border-radius: 10px; }
 
-.jumper{
-  width:80%;
-  max-width:280px;
-  opacity:0;
+.jumper {
+  width: 80%;
+  max-width: 280px;
+  opacity: 0;
   transform: translateY(12px) scale(.98);
   transition: all 420ms cubic-bezier(.2,.9,.25,1);
-  border-radius:12px;
+  border-radius: 12px;
   box-shadow: 0 10px 30px rgba(20,20,20,0.08);
-  background:var(--card);
-  padding:10px;
-  cursor:pointer;
+  background: var(--card);
+  padding: 10px;
+  cursor: pointer;
 }
-.jumper.show{ opacity:1; transform: translateY(0) scale(1); }
+.jumper.show { opacity: 1; transform: translateY(0) scale(1); }
 
-.note{
-  position:absolute;
-  right:10px;
-  top:calc(50% - 40px);
-  width:36%;
-  max-width:120px;
-  transform:translateY(-10px) rotate(-6deg);
-  opacity:0;
+.note {
+  position: absolute;
+  right: 10px;
+  top: calc(50% - 40px);
+  width: 36%;
+  max-width: 120px;
+  transform: translateY(-10px) rotate(-6deg);
+  opacity: 0;
   transition: all 420ms cubic-bezier(.2,.9,.25,1);
-  z-index:60;
-  border-radius:8px;
-  padding:10px;
+  z-index: 60;
+  border-radius: 8px;
+  padding: 10px;
   background: linear-gradient(180deg,#fff8f5,#fffaf8);
-  box-shadow:0 6px 20px rgba(20,20,20,0.06);
+  box-shadow: 0 6px 20px rgba(20,20,20,0.06);
 }
+.note.show { opacity: 1; transform: translateY(0) rotate(-3deg); }
 
-.note.show{ opacity:1; transform:translateY(0) rotate(-3deg); }
-
-.muted { color:#7b7b7b; font-size:13px; }
-
-.controls{ display:flex; gap:10px; justify-content:center; padding-top:6px; }
-.small { font-size:13px; padding:8px 12px; border-radius:10px; }
+.muted { color: #7b7b7b; font-size: 13px; }
+.controls { display: flex; gap: 10px; justify-content: center; padding-top: 6px; }
+.small { font-size: 13px; padding: 8px 12px; border-radius: 10px; }
 
 @media (max-width:420px){
-  .card{border-radius:16px;padding:18px;}
-  h1{font-size:18px}
-  .parcel-area{height:180px}
-  .note{width:42%}
+  .card { border-radius: 16px; padding: 18px; }
+  h1 { font-size: 18px; }
+  .parcel-area { height: 180px; }
+  .note { width: 42%; }
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="card" role="main" aria-live="polite">
-    <div class="stage">
+  <div class="card">
 
-      <!-- Stage A: Intro -->
-      <div id="intro" class="scene">
-        <h1>do you know what day it is?</h1>
-        <p class="muted">you might already know tbf...</p>
-        <div style="height:10px"></div>
-        <button id="revealBtn" class="btn">what day is it?</button>
-      </div>
+    <!-- Stage A: Intro -->
+    <div id="intro" class="stage">
+      <h1>do you know what day it is?</h1>
+      <p class="muted">you might already know tbf...</p>
+      <div style="height:10px"></div>
+      <button id="revealBtn" class="btn">what day is it?</button>
+    </div>
 
-      <!-- Stage B: Reveal -->
-      <div id="reveal" class="scene" style="display:none;">
-        <h1>it's december 3rd!</h1>
-        <p class="muted">(sweater day!!)</p>
-        <div style="height:10px"></div>
-        <div class="controls">
-          <button id="yayBtn" class="btn">YAY</button>
-        </div>
-      </div>
-
-      <!-- Stage C: Letterbox -->
-      <div id="mailScene" class="letter-scene" aria-hidden="true">
-        <h1>Letterbox</h1>
-        <p class="muted">There’s something in the mail…</p>
-        <img id="letterboxImg" src="placeholder-letterbox.png" alt="" class="mailbox" />
-        <div style="height:8px"></div>
-        <button id="checkMail" class="btn">check mail</button>
-
-        <div class="parcel-area" aria-hidden="true">
-          <div id="parcel" class="parcel" role="button" tabindex="0" aria-label="Parcel - tap to open">
-            <img id="parcelImg" src="parcel_closed.png" alt="Closed parcel" />
-          </div>
-          <div id="jumperWrap" class="jumper" aria-hidden="true">
-            <img id="jumperImg" src="jumper.png" alt="Jumper design" style="width:100%; display:block; border-radius:8px" />
-          </div>
-          <img id="openWrap" src="parcel_open.png" alt="" style="position:absolute; width:50%; max-width:220px; bottom:6%; left:50%; transform:translateX(-50%); opacity:0; transition:all 420ms;pointer-events:none;" />
-        </div>
-
-        <div style="height:6px"></div>
-        <div class="controls">
-          <button id="resetBtn" class="ghost-btn small">reset</button>
-        </div>
-
-        <div id="note" class="note" aria-hidden="true">
-          <img src="placeholder-note.png" alt="Handwritten note" style="width:100%; display:block; border-radius:6px" />
-        </div>
+    <!-- Stage B: Reveal -->
+    <div id="reveal" class="stage" style="display:none;">
+      <h1>it's December 3rd!!</h1>
+      <p class="muted">(sweater day!)</p>
+      <div style="height:10px"></div>
+      <div class="controls">
+        <button id="yayBtn" class="btn">YAY</button>
       </div>
     </div>
 
-    <div class="hearts" id="hearts"></div>
+    <!-- Stage C: Letterbox -->
+    <div id="mailScene" class="letter-scene">
+      <h1>Letterbox</h1>
+      <p class="muted">There’s something in the mail…</p>
+      <img id="letterboxImg" src="placeholder-letterbox.png" alt="" class="mailbox" />
+      <div style="height:8px"></div>
+      <button id="checkMail" class="btn">check mail</button>
+
+      <div class="parcel-area">
+        <div id="parcel" class="parcel" style="opacity:0;">
+          <img src="parcel_closed.png" alt="Closed parcel">
+        </div>
+        <div id="jumperWrap" class="jumper" aria-hidden="true">
+          <img src="jumper.png" alt="Jumper design" style="width:100%; display:block; border-radius:8px">
+        </div>
+        <img id="openWrap" src="parcel_open.png" alt="" style="position:absolute; width:50%; max-width:220px; bottom:6%; left:50%; transform:translateX(-50%); opacity:0; transition:all 420ms; pointer-events:none;">
+      </div>
+
+      <div style="height:6px"></div>
+      <div class="controls">
+        <button id="resetBtn" class="ghost-btn small">reset</button>
+      </div>
+
+      <div id="note" class="note" aria-hidden="true">
+        <img src="placeholder-note.png" alt="Handwritten note" style="width:100%; display:block; border-radius:6px">
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -263,84 +230,61 @@ const jumperWrap = document.getElementById('jumperWrap');
 const openWrap = document.getElementById('openWrap');
 const note = document.getElementById('note');
 const resetBtn = document.getElementById('resetBtn');
-const heartsContainer = document.getElementById('hearts');
 
 let opened = false;
 
-// Stage transitions
-document.getElementById('revealBtn').addEventListener('click', ()=>{
+// Stage A -> B
+document.getElementById('revealBtn').addEventListener('click', () => {
   intro.style.display='none';
   reveal.style.display='flex';
 });
 
-yayBtn.addEventListener('click', ()=>{
+// Stage B -> C
+yayBtn.addEventListener('click', () => {
   reveal.style.display='none';
   mailScene.classList.add('show');
   mailScene.setAttribute('aria-hidden','false');
 });
 
-// Check mail button
-checkMail.addEventListener('click', ()=>{
+// Spawn parcel only after check mail
+checkMail.addEventListener('click', () => {
   parcel.style.opacity = 1;
   parcel.classList.add('slide-in');
-  parcel.style.pointerEvents = 'auto';
   checkMail.disabled = true;
 });
 
-// Open parcel
-parcel.addEventListener('click', ()=>{
+// Parcel click -> show open parcel then jumper
+parcel.addEventListener('click', () => {
   if(opened) return;
   opened = true;
+
   openWrap.style.opacity = 1;
-  setTimeout(()=> openWrap.style.opacity=0, 1000);
-  setTimeout(()=>{
+  setTimeout(()=> openWrap.style.opacity = 0, 1000);
+
+  setTimeout(()=> {
     parcel.style.opacity = 0;
     jumperWrap.classList.add('show');
   }, 420);
 });
 
-// Show note on jumper click
-jumperWrap.addEventListener('click', ()=>{
+// Jumper click -> show note
+jumperWrap.addEventListener('click', () => {
   note.classList.add('show');
 });
 
 // Reset
-resetBtn.addEventListener('click', ()=>{
-  opened=false;
+resetBtn.addEventListener('click', () => {
+  opened = false;
   parcel.style.opacity = 0;
   parcel.classList.remove('slide-in');
   jumperWrap.classList.remove('show');
   openWrap.style.opacity = 0;
   note.classList.remove('show');
-  checkMail.disabled=false;
+  checkMail.disabled = false;
   mailScene.classList.remove('show');
+  reveal.style.display='none';
   intro.style.display='flex';
 });
-
-// Heart helper (optional UX)
-function burstHearts(count=20){
-  for(let i=0;i<count;i++){
-    const heart = document.createElement('div');
-    heart.className='heart';
-    const size = Math.random()*22+12;
-    heart.style.width=size+'px';
-    heart.style.height=size+'px';
-    heart.style.left = Math.random()*90 + '%';
-    heart.style.bottom='6%';
-    const svgNS = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(svgNS,'svg');
-    svg.setAttribute('viewBox','0 0 24 24');
-    svg.setAttribute('width','100%');
-    svg.setAttribute('height','100%');
-    const path = document.createElementNS(svgNS,'path');
-    path.setAttribute('d','M12 21s-7.4-4.6-9.3-7.4C.8 9.9 3.6 6 7 6c1.9 0 3.2 1.2 4.1 2.3C12.8 7.2 14.1 6 16 6c3.4 0 6.2 3.9 4.3 7.6C19.4 16.4 12 21 12 21z');
-    path.setAttribute('fill','#ff6b81');
-    svg.appendChild(path);
-    heart.appendChild(svg);
-    heartsContainer.appendChild(heart);
-    setTimeout(()=>heart.remove(), 3000);
-  }
-}
 </script>
 </body>
 </html>

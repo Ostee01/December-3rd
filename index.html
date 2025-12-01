@@ -117,8 +117,7 @@
     filter:drop-shadow(0 6px 18px rgba(30,30,30,0.08));
   }
 
-  /* parcel area */
-  .parcel-area{
+.parcel-area{
     position:relative;
     width:100%;
     height:280px;
@@ -127,8 +126,9 @@
     justify-content:center;
     gap:12px;
     overflow:visible;
-    pointer-events:none;
-  }
+    /* pointer-events:none;  REMOVE THIS */
+}
+
 
   .parcel{
     width:42%;
@@ -281,6 +281,7 @@
   const parcel = document.getElementById('parcel');
   const parcelImg = document.getElementById('parcelImg');
   const jumperWrap = document.getElementById('jumperWrap');
+  parcel.style.pointerEvents = 'none';
   const jumperImg = document.getElementById('jumperImg');
   const openWrap = document.getElementById('openWrap');
   const heartsContainer = document.getElementById('hearts');

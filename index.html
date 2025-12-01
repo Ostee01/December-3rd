@@ -16,15 +16,8 @@
     --tap-size:56px;
   }
   html,body{height:100%;margin:0;font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg, var(--bg) 0%, #f1eef0 100%); color:var(--soft-text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
-  .wrap{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:28px;
-  }
+  .wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:28px;}
 
-  /* phone card */
   .card{
     width:100%;
     max-width:420px;
@@ -74,7 +67,6 @@
     min-height:var(--tap-size);
   }
 
-  /* reveal text */
   .revealText{
     font-size:20px;
     color:var(--muted-berry);
@@ -86,7 +78,6 @@
   }
   .revealText.show{ opacity:1; transform: translateY(0) scale(1); }
 
-  /* heart burst container */
   .hearts{
     pointer-events:none;
     position:absolute;
@@ -103,9 +94,7 @@
     will-change:transform,opacity;
     background:transparent;
   }
-  /* heart svg fill set by JS */
 
-  /* letterbox stage */
   .letter-scene{ display:none; width:100%; height:100%; align-items:center; justify-content:center; flex-direction:column; gap:14px; }
   .letter-scene.show{ display:flex; }
 
@@ -117,7 +106,8 @@
     filter:drop-shadow(0 6px 18px rgba(30,30,30,0.08));
   }
 
-.parcel-area{
+  /* FIXED parcel area */
+  .parcel-area{
     position:relative;
     width:100%;
     height:280px;
@@ -126,8 +116,12 @@
     justify-content:center;
     gap:12px;
     overflow:visible;
-    /* pointer-events:none;  REMOVE THIS */
-}
+    z-index:1; /* ensure button above parcel */
+    pointer-events:none; /* container ignores clicks */
+  }
+  .parcel, .jumper, #openWrap {
+    pointer-events:auto; /* children still clickable */
+  }
 
   .parcel{
     width:42%;
@@ -138,15 +132,12 @@
     transform:translateX(-50%) translateY(30%);
     transition: transform 600ms cubic-bezier(.2,.9,.25,1), opacity 300ms;
     transform-origin:center;
-    pointer-events:auto;
     touch-action:manipulation;
   }
-
   .parcel.slide-in{
     transform: translateX(-50%) translateY(0%);
     bottom:12px;
   }
-
   .parcel img{ width:100%; display:block; border-radius:10px; }
 
   .jumper{
@@ -162,7 +153,6 @@
   }
   .jumper.show{ opacity:1; transform: translateY(0) scale(1); }
 
-  /* note overlay placeholder */
   .note{
     position:absolute;
     right:10px;
@@ -180,14 +170,10 @@
   }
   .note.show{ opacity:1; transform:translateY(0) rotate(-3deg); }
 
-  /* tiny helper */
   .muted { color:#7b7b7b; font-size:13px; }
-
-  /* footer nav */
   .controls{ display:flex; gap:10px; justify-content:center; padding-top:6px; }
   .small { font-size:13px; padding:8px 12px; border-radius:10px; }
 
-  /* responsive tweaks */
   @media (max-width:420px){
     .card{border-radius:16px;padding:18px;}
     h1{font-size:18px}
@@ -202,15 +188,15 @@
   <div class="card" role="main" aria-live="polite">
     <div class="stage">
 
-      <!-- Stage A: Intro question -->
+      <!-- Stage A -->
       <div id="intro" class="scene">
         <h1>do you know what day it is?</h1>
         <p class="muted">(tbf you mightve already seen...)</p>
         <div style="height:10px"></div>
-        <button id="revealBtn" class="btn" aria-label="What day is it?">what day is it?</button>
+        <button id="revealBtn" class="btn">what day is it?</button>
       </div>
 
-      <!-- Stage B: Celebration reveal -->
+      <!-- Stage B -->
       <div id="reveal" class="scene" style="display:none;">
         <div class="revealText" id="revealText">it's december 3rd!! (sweater day!)</div>
         <p class="muted">happy sweater day </p>
@@ -220,31 +206,25 @@
         </div>
       </div>
 
-      <!-- Stage C: Letterbox / parcel -->
+      <!-- Stage C -->
       <div id="mailScene" class="letter-scene" aria-hidden="true">
         <h1>Letterbox</h1>
         <p class="muted">There’s something in the mail…</p>
 
-        <!-- mailbox placeholder -->
         <img id="letterboxImg" src="placeholder-letterbox.png" alt="" class="mailbox" style="opacity:0.7;filter:grayscale(0.02) saturate(0.9)" />
-
         <div style="height:8px"></div>
         <button id="checkMail" class="btn">check mail</button>
 
-        <div class="parcel-area" aria-hidden="true">
-          <!-- parcel (closed) -->
+        <div class="parcel-area">
           <div id="parcel" class="parcel" style="opacity:0;" role="button" tabindex="0" aria-label="Parcel - tap to open">
             <img id="parcelImg" src="parcel_closed.png" alt="Closed parcel" />
           </div>
 
-          <!-- jumper placeholder -->
           <div id="jumperWrap" class="jumper" aria-hidden="true">
             <img id="jumperImg" src="jumper.png" alt="Jumper design" style="width:100%; display:block; border-radius:8px" />
           </div>
 
-          <!-- crumpled/unwrap overlay (open parcel image) - initially hidden -->
-          <img id="openWrap" src="parcel_open.png" alt="" style="position:absolute; width:50%; max-width:220px; bottom:6%; left:50%; transform:translateX(-50%); opacity:0; transition:all 420ms;pointer-events:none;
-" />
+          <img id="openWrap" src="parcel_open.png" alt="" style="position:absolute; width:50%; max-width:220px; bottom:6%; left:50%; transform:translateX(-50%); opacity:0; transition:all 420ms; pointer-events:none;" />
         </div>
 
         <div style="height:6px"></div>
@@ -252,7 +232,6 @@
           <button id="resetBtn" class="ghost-btn small">reset</button>
         </div>
 
-        <!-- handwritten note placeholder -->
         <div id="note" class="note" aria-hidden="true">
           <img src="placeholder-note.png" alt="Handwritten note" style="width:100%; display:block; border-radius:6px" />
         </div>
@@ -260,13 +239,10 @@
 
     </div>
 
-    <!-- hearts container (full screen inside card) -->
     <div class="hearts" id="hearts"></div>
-
   </div>
 </div>
 
-<!-- audio placeholder (add jingle.mp3 to repo later) -->
 <audio id="jingle" src="jingle.mp3" preload="auto"></audio>
 
 <script>
@@ -281,7 +257,6 @@
   const parcel = document.getElementById('parcel');
   const parcelImg = document.getElementById('parcelImg');
   const jumperWrap = document.getElementById('jumperWrap');
-  parcel.style.pointerEvents = 'none';
   const jumperImg = document.getElementById('jumperImg');
   const openWrap = document.getElementById('openWrap');
   const heartsContainer = document.getElementById('hearts');
@@ -290,95 +265,56 @@
   const resetBtn = document.getElementById('resetBtn');
   const letterboxImg = document.getElementById('letterboxImg');
 
-  // keyboard accessibility
-  parcel.addEventListener('keydown', (e)=>{
-    if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openParcel(); }
-  });
-
   // Stage transitions
   revealBtn.addEventListener('click', ()=>{
     intro.style.display='none';
     reveal.style.display='flex';
-    // animate reveal text after short delay
     setTimeout(()=> revealText.classList.add('show'), 80);
-    // heart burst
     setTimeout(()=> burstHearts(26), 220);
   });
 
   toMail.addEventListener('click', ()=> {
-    // hide reveal, show mail scene
     reveal.style.display='none';
     mailScene.classList.add('show');
     mailScene.setAttribute('aria-hidden','false');
   });
 
-checkMail.addEventListener('click', ()=> {
-  // fade parcel in
-  parcel.style.transition = "opacity 600ms ease";
-  parcel.style.opacity = 1;
+  checkMail.addEventListener('click', ()=> {
+    parcel.style.transition = "opacity 600ms ease";
+    parcel.style.opacity = 1;
+    parcel.classList.add('slide-in');
+    parcel.focus();
+    checkMail.disabled = true;
+    setTimeout(()=> { parcel.style.pointerEvents = 'auto'; }, 600);
+    setTimeout(() => { parcel.style.opacity = 0; }, 1600);
+  });
 
-  // slide in parcel
-  parcel.classList.add('slide-in');
-
-  // ensure it is focusable
-  parcel.focus();
-
-  // disable button once used
-  checkMail.disabled = true;
-
-  // allow interaction
-  setTimeout(()=> { parcel.style.pointerEvents = 'auto'; }, 600);
-
-  // fade OUT parcel 1 second after it appears
-  setTimeout(() => {
-    parcel.style.opacity = 0;
-  }, 1600); // 600ms fade-in + 1000ms visible
-});
-
-  // parcel open logic
   let opened=false;
   parcel.addEventListener('click', openParcel);
+  parcel.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openParcel(); }
+  });
 
- function openParcel(){
-  if(opened) return;
-  opened = true;
-
-  // force parcel visible (in case it faded out)
-  parcel.style.opacity = 1;
-
-  // small tap pop
-  parcel.style.transform = 'translateX(-50%) translateY(-3%) scale(0.98)';
-  setTimeout(()=> parcel.style.transform = '', 220);
-
-// show open wrap and animate
-openWrap.style.transition = 'opacity 600ms ease';
-openWrap.style.opacity = 1;
-openWrap.style.transform = 'translateX(-50%) translateY(-6%)';
-
-// fade out the open parcel image after ~1.5 seconds
-setTimeout(() => {
-  openWrap.style.opacity = 0;
-}, 1500); 
-
-    // after a beat, hide closed parcel and show jumper
+  function openParcel(){
+    if(opened) return;
+    opened = true;
+    parcel.style.opacity = 1;
+    parcel.style.transform = 'translateX(-50%) translateY(-3%) scale(0.98)';
+    setTimeout(()=> parcel.style.transform = '', 220);
+    openWrap.style.transition = 'opacity 600ms ease';
+    openWrap.style.opacity = 1;
+    openWrap.style.transform = 'translateX(-50%) translateY(-6%)';
+    setTimeout(()=> { openWrap.style.opacity = 0; }, 1500);
     setTimeout(()=> {
       parcel.style.opacity = 0;
-      // play jingle (if added later)
-      try { jingle.currentTime = 0; jingle.play().catch(()=>{}); } catch(e){}
-      // reveal jumper
+      try { jingle.currentTime=0; jingle.play().catch(()=>{}); } catch(e){}
       jumperWrap.classList.add('show');
-      // hearts celebration too
       burstHearts(40);
-      // show note overlay slightly after jumper
-      setTimeout(()=> {
-        note.classList.add('show');
-      }, 520);
+      setTimeout(()=> { note.classList.add('show'); }, 520);
     }, 420);
   }
 
-  // reset button
   resetBtn.addEventListener('click', ()=>{
-    // reset everything
     opened=false;
     parcel.style.opacity = 1;
     parcel.classList.remove('slide-in');
@@ -386,25 +322,15 @@ setTimeout(() => {
     openWrap.style.opacity = 0;
     note.classList.remove('show');
     checkMail.disabled=false;
-    // go back to mail scene (if not already)
     reveal.style.display='none';
     intro.style.display='none';
     mailScene.classList.add('show');
   });
 
-  // simple heart burst generator (full burst)
   function burstHearts(count=24){
     const colors = ['#ffb6c1','#ff7b9c','#ffd6dd','#ffdede','#ff9aa2'];
-    for(let i=0;i<count;i++){
-      createHeart(randomInt(14,34), colors[Math.floor(Math.random()*colors.length)]);
-    }
-    // cleanup old hearts after animation window
-    setTimeout(()=> {
-      const old = heartsContainer.querySelectorAll('.heart');
-      old.forEach(h=> {
-        if(h.parentNode) h.parentNode.removeChild(h);
-      });
-    }, 4200);
+    for(let i=0;i<count;i++){ createHeart(randomInt(14,34), colors[Math.floor(Math.random()*colors.length)]); }
+    setTimeout(()=>{ const old = heartsContainer.querySelectorAll('.heart'); old.forEach(h=> h.remove()); }, 4200);
   }
 
   function createHeart(size=22, fill='#ff6b81'){
@@ -412,124 +338,39 @@ setTimeout(() => {
     heart.className='heart';
     heart.style.width=size+'px';
     heart.style.height=size+'px';
-    // random start horizontal position within card
-    const startX = Math.random()*90 + 5; // percent
+    const startX = Math.random()*90 + 5;
     heart.style.left = startX + '%';
     heart.style.bottom = '6%';
     heart.style.opacity = 0;
-    // create inline svg heart
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns,'svg');
     svg.setAttribute('viewBox','0 0 24 24');
     svg.setAttribute('width','100%');
     svg.setAttribute('height','100%');
     const path = document.createElementNS(ns,'path');
-    path.setAttribute('d', 'M12 21s-7.4-4.6-9.3-7.4C.8 9.9 3.6 6 7 6c1.9 0 3.2 1.2 4.1 2.3C12.8 7.2 14.1 6 16 6c3.4 0 6.2 3.9 4.3 7.6C19.4 16.4 12 21 12 21z');
+    path.setAttribute('d','M12 21s-7.4-4.6-9.3-7.4C.8 9.9 3.6 6 7 6c1.9 0 3.2 1.2 4.1 2.3C12.8 7.2 14.1 6 16 6c3.4 0 6.2 3.9 4.3 7.6C19.4 16.4 12 21 12 21z');
     path.setAttribute('fill', fill);
     svg.appendChild(path);
     heart.appendChild(svg);
     heartsContainer.appendChild(heart);
-
-    // animate: random path upward and fade
-    const travel = randomInt(18,46); // percent of card height
-    const angle = (Math.random() - 0.5) * 30; // slight drift
+    const travel = randomInt(18,46);
+    const angle = (Math.random() - 0.5) * 30;
     const dur = randomFloat(1600,3200);
-    // initial pop
-    setTimeout(()=> {
-      heart.style.transition = `transform ${dur}ms cubic-bezier(.18,.9,.24,1), opacity ${dur}ms linear`;
-      heart.style.opacity = 1;
-      heart.style.transform = `translateY(-${travel}%) translateX(${angle}px) scale(${randomFloat(0.9,1.1)}) rotate(${randomInt(-30,30)}deg)`;
-    }, randomInt(10,120));
-
-    // fade out at end
-    setTimeout(()=> {
-      heart.style.opacity = 0;
-    }, dur - 280 + randomInt(0,200));
+    setTimeout(()=>{ heart.style.transition=`transform ${dur}ms cubic-bezier(.18,.9,.24,1), opacity ${dur}ms linear`; heart.style.opacity=1; heart.style.transform=`translateY(-${travel}%) translateX(${angle}px) scale(${randomFloat(0.9,1.1)}) rotate(${randomInt(-30,30)}deg)`; }, randomInt(10,120));
+    setTimeout(()=>{ heart.style.opacity=0; }, dur - 280 + randomInt(0,200));
     return heart;
   }
 
-  // small helpers
   function randomInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
   function randomFloat(a,b){ return (Math.random()*(b-a))+a; }
 
-  // small accessibility: focus styles
   document.addEventListener('keydown', (e)=>{
     if(e.key==='Escape'){
-      // reset view to intro
-      intro.style.display='';
-      reveal.style.display='none';
-      mailScene.classList.remove('show');
-      // reset parcel
-      resetBtn.click();
+      intro.style.display=''; reveal.style.display='none'; mailScene.classList.remove('show'); resetBtn.click();
     }
   });
 
-  // Try to prevent accidental dragging on mobile
   document.addEventListener('touchmove', function(e){}, {passive:true});
-
-  // Preload images quietly
-  const assets = ['jumper.png','parcel_closed.png','parcel_open.png','placeholder-letterbox.png','placeholder-note.png'];
-  assets.forEach(src=>{
-    const img=new Image(); img.src=src;
-  });
-
-  // If any of the placeholder images are missing, show a very light inline placeholder
-  window.addEventListener('load', ()=>{
-    // If letterbox placeholder missing, draw a simple one as data URI
-    fetchIfMissing('placeholder-letterbox.png', (dataUri)=>{
-      letterboxImg.src = dataUri;
-    });
-    fetchIfMissing('placeholder-note.png', (dataUri)=>{
-      document.querySelector('#note img').src = dataUri;
-    });
-    // ensure jumper & parcel visible if already in view
-    jumperImg.addEventListener('error', ()=> {
-      jumperImg.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="500" height="400">
-          <rect width="100%" height="100%" fill="#fff8f5"/>
-          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b36" font-size="20">jumper.png</text>
-        </svg>`);
-    });
-    parcelImg.addEventListener('error', ()=> {
-      parcelImg.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
-          <rect width="100%" height="100%" fill="#f2e8de"/>
-          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#7a1020" font-size="18">parcel_closed.png</text>
-        </svg>`);
-    });
-  });
-
-  // helper: check if file exists by attempting fetch; if 404, call callback with simple svg placeholder
-  function fetchIfMissing(src, cb){
-    fetch(src, {method:'HEAD'}).then(r=>{
-      if(r.ok) return; // exists
-      const data = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="600" height="380">
-          <rect width="100%" height="100%" fill="#f1f1f1"/>
-          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9b9b9b" font-size="22">placeholder</text>
-        </svg>`);
-      cb(data);
-    }).catch(()=> {
-      const data = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="600" height="380">
-          <rect width="100%" height="100%" fill="#f1f1f1"/>
-          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9b9b9b" font-size="22">placeholder</text>
-        </svg>`);
-      cb(data);
-    });
-  }
-
-  // small UX: hide long text selection on tap
-
-  // Allow small delays to prevent instant double taps causing weirdness
-  let tapped=false;
-  function safeTap(handler){
-    if(tapped) return;
-    tapped=true;
-    handler();
-    setTimeout(()=> tapped=false, 420);
-  }
-
 </script>
 </body>
 </html>

@@ -206,14 +206,14 @@
       <!-- Stage A: Intro question -->
       <div id="intro" class="scene">
         <h1>do you know what day it is?</h1>
-        <p class="muted">(tap the button — it's a surprise)</p>
-        <div style="height:8px"></div>
+        <p class="muted">(What day is it?)</p>
+        <div style="height:10px"></div>
         <button id="revealBtn" class="btn" aria-label="What day is it?">what day is it?</button>
       </div>
 
       <!-- Stage B: Celebration reveal -->
       <div id="reveal" class="scene" style="display:none;">
-        <div class="revealText" id="revealText">it's december 3rd!! (sweater day!!!)</div>
+        <div class="revealText" id="revealText">it's december 3rd!! (sweater day!)</div>
         <p class="muted">happy sweater day 💖</p>
         <div style="height:10px"></div>
         <div class="controls">
@@ -234,7 +234,7 @@
 
         <div class="parcel-area" aria-hidden="true">
           <!-- parcel (closed) -->
-          <div id="parcel" class="parcel" role="button" tabindex="0" aria-label="Parcel - tap to open">
+          <div id="parcel" class="parcel" style="opacity:0;" role="button" tabindex="0" aria-label="Parcel - tap to open">
             <img id="parcelImg" src="parcel_closed.png" alt="Closed parcel" />
           </div>
 
@@ -311,26 +311,43 @@
     mailScene.setAttribute('aria-hidden','false');
   });
 
-  checkMail.addEventListener('click', ()=> {
-    // slide in parcel
-    parcel.classList.add('slide-in');
-    // ensure it is focusable
-    parcel.focus();
-    // show hint
-    checkMail.disabled=true;
-    setTimeout(()=> { parcel.style.pointerEvents='auto'; }, 600);
-  });
+checkMail.addEventListener('click', ()=> {
+  // fade parcel in
+  parcel.style.transition = "opacity 600ms ease";
+  parcel.style.opacity = 1;
+
+  // slide in parcel
+  parcel.classList.add('slide-in');
+
+  // ensure it is focusable
+  parcel.focus();
+
+  // disable button once used
+  checkMail.disabled = true;
+
+  // allow interaction
+  setTimeout(()=> { parcel.style.pointerEvents = 'auto'; }, 600);
+
+  // fade OUT parcel 1 second after it appears
+  setTimeout(() => {
+    parcel.style.opacity = 0;
+  }, 1600); // 600ms fade-in + 1000ms visible
+});
 
   // parcel open logic
   let opened=false;
   parcel.addEventListener('click', openParcel);
 
-  function openParcel(){
-    if(opened) return;
-    opened=true;
-    // small tap pop
-    parcel.style.transform = 'translateX(-50%) translateY(-3%) scale(0.98)';
-    setTimeout(()=> parcel.style.transform = '', 220);
+ function openParcel(){
+  if(opened) return;
+  opened = true;
+
+  // force parcel visible (in case it faded out)
+  parcel.style.opacity = 1;
+
+  // small tap pop
+  parcel.style.transform = 'translateX(-50%) translateY(-3%) scale(0.98)';
+  setTimeout(()=> parcel.style.transform = '', 220);
 
     // animate closed parcel to open (swap to openWrap image and fade)
     // show open wrap and animate

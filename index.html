@@ -5,372 +5,237 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>December 3rd Sweater</title>
 <style>
-  :root{
-    --bg:#F7F7F9;         /* soft winter white */
-    --muted-berry:#7A1020;/* muted red/berry for jumper accents */
-    --warm-cream:#FFF7EE;
-    --card:#fff;
-    --shadow: 0 8px 30px rgba(19,19,25,0.08);
-    --accent:#C84B4B;
-    --soft-text:#3a3a3a;
-    --tap-size:56px;
-  }
-  html,body{height:100%;margin:0;font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg, var(--bg) 0%, #f1eef0 100%); color:var(--soft-text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
-  .wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:28px;}
+:root{
+  --bg:#F7F7F9;
+  --muted-berry:#7A1020;
+  --card:#fff;
+  --shadow:0 8px 30px rgba(19,19,25,0.08);
+  --tap-size:56px;
+}
+html,body{
+  height:100%; margin:0;
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background: linear-gradient(180deg, var(--bg) 0%, #f1eef0 100%);
+  color:#3a3a3a; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+.wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+}
+.card{
+  width:100%;
+  max-width:420px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.98));
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  padding:22px;
+  box-sizing:border-box;
+  position:relative;
+  overflow:hidden;
+}
+.stage{
+  min-height:60vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:18px;
+}
+h1{font-size:20px;margin:0;color:var(--muted-berry); font-weight:700;}
+p{margin:0;color:#6b6b6b; font-size:14px;}
+.btn{
+  background:var(--muted-berry);
+  color:white;
+  border:none;
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:600;
+  font-size:16px;
+  min-height:var(--tap-size);
+  min-width:160px;
+  box-shadow:0 6px 18px rgba(122,16,32,0.12);
+}
+.parcel-area{
+  position:relative;
+  width:100%;
+  height:280px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  overflow:visible;
+}
+.parcel, .jumper, #openWrap{
+  position:absolute;
+  transition: all 0.4s cubic-bezier(.2,.9,.25,1);
+  cursor:pointer;
+}
+.parcel img, .jumper img, #openWrap{
+  width:100%;
+  display:block;
+  border-radius:10px;
+}
+.parcel{
+  width:42%;
+  max-width:180px;
+  bottom:-20%;
+  left:50%;
+  transform:translateX(-50%) translateY(30%);
+  opacity:0;
+}
+.parcel.slide-in{
+  transform:translateX(-50%) translateY(0%);
+  bottom:12px;
+  opacity:1;
+}
+.jumper{
+  width:72%;
+  max-width:260px;
+  opacity:0;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%) translateY(12px) scale(0.98);
+  box-shadow:0 10px 30px rgba(20,20,20,0.08);
+  background:var(--card);
+  padding:10px;
+}
+.jumper.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0) scale(1);
+}
+#openWrap{
+  width:50%;
+  max-width:220px;
+  bottom:6%;
+  left:50%;
+  transform:translateX(-50%);
+  opacity:0;
+  pointer-events:none;
+}
+.note{
+  position:absolute;
+  right:10px;
+  top:calc(50% - 40px);
+  width:36%;
+  max-width:120px;
+  opacity:0;
+  background: linear-gradient(180deg,#fff8f5,#fffaf8);
+  box-shadow:0 6px 20px rgba(20,20,20,0.06);
+  border-radius:8px;
+  padding:10px;
+}
+.note.show{ opacity:1; }
+.controls{ display:flex; gap:10px; justify-content:center; padding-top:6px; }
+.small { font-size:13px; padding:8px 12px; border-radius:10px; }
 
-  .card{
-    width:100%;
-    max-width:420px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.98));
-    border-radius:18px;
-    box-shadow:var(--shadow);
-    padding:22px;
-    box-sizing:border-box;
-    position:relative;
-    overflow:hidden;
-  }
+.letter-scene{ display:none; flex-direction:column; gap:14px; }
+.letter-scene.show{ display:flex; }
 
-  .stage{
-    min-height:60vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    text-align:center;
-    gap:18px;
-    padding:8px 12px;
-  }
-
-  h1{font-size:20px;margin:0;color:var(--muted-berry);font-weight:700}
-  p{margin:0;color:#6b6b6b}
-
-  .btn{
-    background:var(--muted-berry);
-    color:white;
-    border:none;
-    padding:12px 18px;
-    border-radius:12px;
-    font-weight:600;
-    font-size:16px;
-    box-shadow:0 6px 18px rgba(122,16,32,0.12);
-    min-height:var(--tap-size);
-    min-width:160px;
-  }
-
-  .ghost-btn{
-    background:transparent;
-    border:2px solid rgba(122,16,32,0.12);
-    color:var(--muted-berry);
-    padding:10px 14px;
-    border-radius:12px;
-    font-weight:600;
-    min-height:var(--tap-size);
-  }
-
-  .revealText{
-    font-size:20px;
-    color:var(--muted-berry);
-    font-weight:800;
-    opacity:0;
-    transform: translateY(8px) scale(.98);
-    transition: all 420ms cubic-bezier(.2,.9,.25,1);
-    letter-spacing:0.6px;
-  }
-  .revealText.show{ opacity:1; transform: translateY(0) scale(1); }
-
-  .hearts{
-    pointer-events:none;
-    position:absolute;
-    inset:0;
-    overflow:hidden;
-    z-index:50;
-  }
-  .heart{
-    position:absolute;
-    width:18px;
-    height:18px;
-    transform-origin:center;
-    opacity:0;
-    will-change:transform,opacity;
-    background:transparent;
-  }
-
-  .letter-scene{ display:none; width:100%; height:100%; align-items:center; justify-content:center; flex-direction:column; gap:14px; }
-  .letter-scene.show{ display:flex; }
-
-  .mailbox{
-    width:65%;
-    max-width:260px;
-    height:auto;
-    margin: 0 auto;
-    filter:drop-shadow(0 6px 18px rgba(30,30,30,0.08));
-  }
-
-  /* FIXED parcel area */
-  .parcel-area{
-    position:relative;
-    width:100%;
-    height:280px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    gap:12px;
-    overflow:visible;
-    z-index:1; /* ensure button above parcel */
-    pointer-events:none; /* container ignores clicks */
-  }
-  .parcel, .jumper, #openWrap {
-    pointer-events:auto; /* children still clickable */
-  }
-
-  .parcel{
-    width:42%;
-    max-width:180px;
-    position:absolute;
-    bottom:-20%;
-    left:50%;
-    transform:translateX(-50%) translateY(30%);
-    transition: transform 600ms cubic-bezier(.2,.9,.25,1), opacity 300ms;
-    transform-origin:center;
-    touch-action:manipulation;
-  }
-  .parcel.slide-in{
-    transform: translateX(-50%) translateY(0%);
-    bottom:12px;
-  }
-  .parcel img{ width:100%; display:block; border-radius:10px; }
-
-  .jumper{
-    width:72%;
-    max-width:260px;
-    opacity:0;
-    transform: translateY(12px) scale(.98);
-    transition: all 420ms cubic-bezier(.2,.9,.25,1);
-    border-radius:12px;
-    box-shadow: 0 10px 30px rgba(20,20,20,0.08);
-    background:var(--card);
-    padding:10px;
-  }
-  .jumper.show{ opacity:1; transform: translateY(0) scale(1); }
-
-  .note{
-    position:absolute;
-    right:10px;
-    top:calc(50% - 40px);
-    width:36%;
-    max-width:120px;
-    transform:translateY(-10px) rotate(-6deg);
-    opacity:0;
-    transition: all 420ms cubic-bezier(.2,.9,.25,1);
-    z-index:60;
-    border-radius:8px;
-    padding:10px;
-    background: linear-gradient(180deg,#fff8f5,#fffaf8);
-    box-shadow:0 6px 20px rgba(20,20,20,0.06);
-  }
-  .note.show{ opacity:1; transform:translateY(0) rotate(-3deg); }
-
-  .muted { color:#7b7b7b; font-size:13px; }
-  .controls{ display:flex; gap:10px; justify-content:center; padding-top:6px; }
-  .small { font-size:13px; padding:8px 12px; border-radius:10px; }
-
-  @media (max-width:420px){
-    .card{border-radius:16px;padding:18px;}
-    h1{font-size:18px}
-    .parcel-area{height:220px}
-    .note{width:42%}
-  }
-
+@media (max-width:420px){
+  .card{padding:18px;}
+  h1{font-size:18px;}
+  .parcel-area{height:220px;}
+  .note{width:42%;}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="card" role="main" aria-live="polite">
+  <div class="card">
     <div class="stage">
 
       <!-- Stage A -->
-      <div id="intro" class="scene">
+      <div id="intro">
         <h1>do you know what day it is?</h1>
-        <p class="muted">(tbf you might've already seen...)</p>
-        <div style="height:10px"></div>
+        <p>you might already know tbf...</p>
         <button id="revealBtn" class="btn">what day is it?</button>
       </div>
 
       <!-- Stage B -->
-      <div id="reveal" class="scene" style="display:none;">
-        <div class="revealText" id="revealText">it's december 3rd!! (sweater day!)</div>
-        <p class="muted">happy sweater day </p>
-        <div style="height:10px"></div>
+      <div id="reveal" style="display:none;">
+        <h1 style="font-size:24px;">it's december 3rd!</h1>
+        <p>(sweater day!!)</p>
         <div class="controls">
-          <button id="toMail" class="ghost-btn small">open the post</button>
+          <button id="yayBtn" class="btn">YAY</button>
         </div>
       </div>
 
       <!-- Stage C -->
-      <div id="mailScene" class="letter-scene" aria-hidden="true">
-        <h1>Letterbox</h1>
-        <p class="muted">There’s something in the mail…</p>
-
-        <img id="letterboxImg" src="placeholder-letterbox.png" alt="" class="mailbox" style="opacity:0.7;filter:grayscale(0.02) saturate(0.9)" />
-        <div style="height:8px"></div>
-        <button id="checkMail" class="btn">check mail</button>
+      <div id="mailScene" class="letter-scene">
+        <img id="letterboxImg" src="placeholder-letterbox.png" class="mailbox" alt="Letterbox" />
+        <div class="controls">
+          <button id="checkMail" class="btn">check mail</button>
+        </div>
 
         <div class="parcel-area">
-          <div id="parcel" class="parcel" style="opacity:0;" role="button" tabindex="0" aria-label="Parcel - tap to open">
-            <img id="parcelImg" src="parcel_closed.png" alt="Closed parcel" />
+          <div id="parcel" class="parcel">
+            <img src="parcel_closed.png" alt="Closed parcel" />
           </div>
-
-          <div id="jumperWrap" class="jumper" aria-hidden="true">
-            <img id="jumperImg" src="jumper.png" alt="Jumper design" style="width:100%; display:block; border-radius:8px" />
+          <img id="openWrap" src="parcel_open.png" alt="Open parcel"/>
+          <div id="jumperWrap" class="jumper">
+            <img src="jumper.png" alt="Jumper" />
           </div>
-
-          <img id="openWrap" src="parcel_open.png" alt="" style="position:absolute; width:50%; max-width:220px; bottom:6%; left:50%; transform:translateX(-50%); opacity:0; transition:all 420ms; pointer-events:none;" />
-        </div>
-
-        <div style="height:6px"></div>
-        <div class="controls">
-          <button id="resetBtn" class="ghost-btn small">reset</button>
-        </div>
-
-        <div id="note" class="note" aria-hidden="true">
-          <img src="placeholder-note.png" alt="Handwritten note" style="width:100%; display:block; border-radius:6px" />
+          <div id="note" class="note">
+            <img src="placeholder-note.png" alt="Note" />
+          </div>
         </div>
       </div>
 
     </div>
-
-    <div class="hearts" id="hearts"></div>
   </div>
 </div>
 
-<audio id="jingle" src="jingle.mp3" preload="auto"></audio>
-
 <script>
-  // Elements
-  const intro = document.getElementById('intro');
-  const reveal = document.getElementById('reveal');
-  const revealText = document.getElementById('revealText');
-  const revealBtn = document.getElementById('revealBtn');
-  const toMail = document.getElementById('toMail');
-  const mailScene = document.getElementById('mailScene');
-  const checkMail = document.getElementById('checkMail');
-  const parcel = document.getElementById('parcel');
-  const parcelImg = document.getElementById('parcelImg');
-  const jumperWrap = document.getElementById('jumperWrap');
-  const jumperImg = document.getElementById('jumperImg');
-  const openWrap = document.getElementById('openWrap');
-  const heartsContainer = document.getElementById('hearts');
-  const jingle = document.getElementById('jingle');
-  const note = document.getElementById('note');
-  const resetBtn = document.getElementById('resetBtn');
-  const letterboxImg = document.getElementById('letterboxImg');
+const intro = document.getElementById('intro');
+const reveal = document.getElementById('reveal');
+const revealBtn = document.getElementById('revealBtn');
+const yayBtn = document.getElementById('yayBtn');
+const mailScene = document.getElementById('mailScene');
+const checkMail = document.getElementById('checkMail');
+const parcel = document.getElementById('parcel');
+const jumperWrap = document.getElementById('jumperWrap');
+const openWrap = document.getElementById('openWrap');
+const note = document.getElementById('note');
 
-  // Stage transitions
-  revealBtn.addEventListener('click', ()=>{
-    intro.style.display='none';
-    reveal.style.display='flex';
-    setTimeout(()=> revealText.classList.add('show'), 80);
-    setTimeout(()=> burstHearts(26), 220);
-  });
+// Stage A -> B
+revealBtn.addEventListener('click', ()=>{
+  intro.style.display='none';
+  reveal.style.display='flex';
+});
 
-  toMail.addEventListener('click', ()=> {
-    reveal.style.display='none';
-    mailScene.classList.add('show');
-    mailScene.setAttribute('aria-hidden','false');
-  });
+// Stage B -> C
+yayBtn.addEventListener('click', ()=>{
+  reveal.style.display='none';
+  mailScene.classList.add('show');
+});
 
-  checkMail.addEventListener('click', ()=> {
-    parcel.style.transition = "opacity 600ms ease";
-    parcel.style.opacity = 1;
-    parcel.classList.add('slide-in');
-    parcel.focus();
-    checkMail.disabled = true;
-    setTimeout(()=> { parcel.style.pointerEvents = 'auto'; }, 600);
-    setTimeout(() => { parcel.style.opacity = 0; }, 1600);
-  });
+// Check mail -> show parcel
+checkMail.addEventListener('click', ()=>{
+  document.getElementById('letterboxImg').style.display='none';
+  checkMail.style.display='none';
+  parcel.classList.add('slide-in');
+});
 
-  let opened=false;
-  parcel.addEventListener('click', openParcel);
-  parcel.addEventListener('keydown', (e)=>{
-    if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openParcel(); }
-  });
+// Open parcel -> show open wrap then jumper
+let opened=false;
+parcel.addEventListener('click', ()=>{
+  if(opened) return;
+  opened=true;
+  openWrap.style.opacity=1;
+  setTimeout(()=>{ 
+    openWrap.style.opacity=0;
+    parcel.style.opacity=0;
+    jumperWrap.classList.add('show');
+  }, 1000);
+});
 
-  function openParcel(){
-    if(opened) return;
-    opened = true;
-    parcel.style.opacity = 1;
-    parcel.style.transform = 'translateX(-50%) translateY(-3%) scale(0.98)';
-    setTimeout(()=> parcel.style.transform = '', 220);
-    openWrap.style.transition = 'opacity 600ms ease';
-    openWrap.style.opacity = 1;
-    openWrap.style.transform = 'translateX(-50%) translateY(-6%)';
-    setTimeout(()=> { openWrap.style.opacity = 0; }, 1500);
-    setTimeout(()=> {
-      parcel.style.opacity = 0;
-      try { jingle.currentTime=0; jingle.play().catch(()=>{}); } catch(e){}
-      jumperWrap.classList.add('show');
-      burstHearts(40);
-      setTimeout(()=> { note.classList.add('show'); }, 520);
-    }, 420);
-  }
-
-  resetBtn.addEventListener('click', ()=>{
-    opened=false;
-    parcel.style.opacity = 1;
-    parcel.classList.remove('slide-in');
-    jumperWrap.classList.remove('show');
-    openWrap.style.opacity = 0;
-    note.classList.remove('show');
-    checkMail.disabled=false;
-    reveal.style.display='none';
-    intro.style.display='none';
-    mailScene.classList.add('show');
-  });
-
-  function burstHearts(count=24){
-    const colors = ['#ffb6c1','#ff7b9c','#ffd6dd','#ffdede','#ff9aa2'];
-    for(let i=0;i<count;i++){ createHeart(randomInt(14,34), colors[Math.floor(Math.random()*colors.length)]); }
-    setTimeout(()=>{ const old = heartsContainer.querySelectorAll('.heart'); old.forEach(h=> h.remove()); }, 4200);
-  }
-
-  function createHeart(size=22, fill='#ff6b81'){
-    const heart = document.createElement('div');
-    heart.className='heart';
-    heart.style.width=size+'px';
-    heart.style.height=size+'px';
-    const startX = Math.random()*90 + 5;
-    heart.style.left = startX + '%';
-    heart.style.bottom = '6%';
-    heart.style.opacity = 0;
-    const ns = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(ns,'svg');
-    svg.setAttribute('viewBox','0 0 24 24');
-    svg.setAttribute('width','100%');
-    svg.setAttribute('height','100%');
-    const path = document.createElementNS(ns,'path');
-    path.setAttribute('d','M12 21s-7.4-4.6-9.3-7.4C.8 9.9 3.6 6 7 6c1.9 0 3.2 1.2 4.1 2.3C12.8 7.2 14.1 6 16 6c3.4 0 6.2 3.9 4.3 7.6C19.4 16.4 12 21 12 21z');
-    path.setAttribute('fill', fill);
-    svg.appendChild(path);
-    heart.appendChild(svg);
-    heartsContainer.appendChild(heart);
-    const travel = randomInt(18,46);
-    const angle = (Math.random() - 0.5) * 30;
-    const dur = randomFloat(1600,3200);
-    setTimeout(()=>{ heart.style.transition=`transform ${dur}ms cubic-bezier(.18,.9,.24,1), opacity ${dur}ms linear`; heart.style.opacity=1; heart.style.transform=`translateY(-${travel}%) translateX(${angle}px) scale(${randomFloat(0.9,1.1)}) rotate(${randomInt(-30,30)}deg)`; }, randomInt(10,120));
-    setTimeout(()=>{ heart.style.opacity=0; }, dur - 280 + randomInt(0,200));
-    return heart;
-  }
-
-  function randomInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
-  function randomFloat(a,b){ return (Math.random()*(b-a))+a; }
-
-  document.addEventListener('keydown', (e)=>{
-    if(e.key==='Escape'){
-      intro.style.display=''; reveal.style.display='none'; mailScene.classList.remove('show'); resetBtn.click();
-    }
-  });
-
-  document.addEventListener('touchmove', function(e){}, {passive:true});
+// Show note when clicking jumper
+jumperWrap.addEventListener('click', ()=>{
+  note.classList.add('show');
+});
 </script>
 </body>
 </html>

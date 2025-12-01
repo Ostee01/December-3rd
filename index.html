@@ -206,7 +206,7 @@
       <!-- Stage A: Intro question -->
       <div id="intro" class="scene">
         <h1>do you know what day it is?</h1>
-        <p class="muted">(What day is it?)</p>
+        <p class="muted">()</p>
         <div style="height:10px"></div>
         <button id="revealBtn" class="btn" aria-label="What day is it?">what day is it?</button>
       </div>
@@ -214,7 +214,7 @@
       <!-- Stage B: Celebration reveal -->
       <div id="reveal" class="scene" style="display:none;">
         <div class="revealText" id="revealText">it's december 3rd!! (sweater day!)</div>
-        <p class="muted">happy sweater day 💖</p>
+        <p class="muted">happy sweater day </p>
         <div style="height:10px"></div>
         <div class="controls">
           <button id="toMail" class="ghost-btn small">open the post</button>
@@ -349,10 +349,16 @@ checkMail.addEventListener('click', ()=> {
   parcel.style.transform = 'translateX(-50%) translateY(-3%) scale(0.98)';
   setTimeout(()=> parcel.style.transform = '', 220);
 
-    // animate closed parcel to open (swap to openWrap image and fade)
-    // show open wrap and animate
-    openWrap.style.opacity = 1;
-    openWrap.style.transform = 'translateX(-50%) translateY(-6%)';
+// show open wrap and animate
+openWrap.style.transition = 'opacity 600ms ease';
+openWrap.style.opacity = 1;
+openWrap.style.transform = 'translateX(-50%) translateY(-6%)';
+
+// fade out the open parcel image after ~1.5 seconds
+setTimeout(() => {
+  openWrap.style.opacity = 0;
+}, 1500); 
+
     // after a beat, hide closed parcel and show jumper
     setTimeout(()=> {
       parcel.style.opacity = 0;

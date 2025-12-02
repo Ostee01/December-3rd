@@ -16,12 +16,12 @@
 html, body {
   height: 100%;
   margin: 0;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg, var(--bg) 0%, #f1eef0 100%);
+  font-family: "Inter", system-ui, ...;
+  background: url('bg.png') no-repeat center center fixed;
+  background-size: cover; /* ensures it fills the screen */
   color: var(--soft-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
+
 .wrap {
   min-height: 100vh;
   display: flex;
